@@ -6,8 +6,10 @@ import { ActionForm } from "@/components/action-form";
 import { BomTraceabilityPanel } from "@/components/bom-traceability";
 import { ParetoChartPanel } from "@/components/charts/pareto-chart";
 import { FaultTreePanel } from "@/components/fault-tree";
+import { ImpactZonesPanel } from "@/components/impact-zones";
 import { StakeholderLens } from "@/components/stakeholder-lens";
 import { TimelinePanel } from "@/components/timeline";
+import { UserPainPointsPanel } from "@/components/user-pain-points";
 import { Badge, KpiTile, Panel, SectionTitle, severityTone } from "@/components/ui";
 import type { CopilotResponse, IssueDetail, RawClaim, RawDefect, TimelineEvent } from "@/lib/types";
 import { formatCurrency, formatDate } from "@/lib/utils";
@@ -202,6 +204,11 @@ export function InvestigationWorkspace({
       </div>
 
       <StakeholderLens views={issue.stakeholderViews} />
+
+      <div className="grid gap-6 xl:grid-cols-2">
+        <ImpactZonesPanel issue={issue} />
+        <UserPainPointsPanel issue={issue} />
+      </div>
 
       <div className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
         <Panel>
