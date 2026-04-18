@@ -1,6 +1,5 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import {
   SidebarGroup,
@@ -9,7 +8,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { CirclePlusIcon, MailIcon } from "lucide-react"
+import { CirclePlusIcon } from "lucide-react"
 
 export function NavMain({
   items,
@@ -36,15 +35,6 @@ export function NavMain({
                 <span>Open Investigation</span>
               </Link>
             </SidebarMenuButton>
-            <Button
-              size="icon"
-              className="size-8 rounded-[8px] border-[#d7deea] group-data-[collapsible=icon]:opacity-0"
-              variant="outline"
-            >
-              <MailIcon
-              />
-              <span className="sr-only">Inbox</span>
-            </Button>
           </SidebarMenuItem>
         </SidebarMenu>
         <SidebarMenu>
