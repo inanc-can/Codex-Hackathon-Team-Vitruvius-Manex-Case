@@ -1,14 +1,22 @@
 "use client"
 
-import Link from "next/link"
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible"
 import {
   SidebarGroup,
-  SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarMenu,
+  SidebarMenuAction,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
 } from "@/components/ui/sidebar"
-import { CirclePlusIcon } from "lucide-react"
+import { ChevronRightIcon } from "lucide-react"
 
 export function NavMain({
   items,
@@ -16,40 +24,55 @@ export function NavMain({
   items: {
     title: string
     url: string
-    icon?: React.ReactNode
+    icon: React.ReactNode
+    isActive?: boolean
+    items?: {
+      title: string
+      url: string
+    }[]
   }[]
 }) {
   return (
     <SidebarGroup>
-      <SidebarGroupContent className="flex flex-col gap-2">
-        <SidebarMenu>
-          <SidebarMenuItem className="flex items-center gap-2">
-            <SidebarMenuButton
-              asChild
-              tooltip="Quick Create"
-              className="min-w-8 rounded-[8px] bg-[#0B5FFF] text-white duration-200 ease-linear hover:bg-[#0949c7] hover:text-white active:bg-[#0949c7] active:text-white"
-            >
-              <Link href="/issues/supplier_material">
-                <CirclePlusIcon
-                />
-                <span>Open Investigation</span>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
-        <SidebarMenu>
-          {items.map((item) => (
-            <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton tooltip={item.title} asChild>
-                <Link href={item.url} className="rounded-[8px]">
+      <SidebarGroupLabel>Platform</SidebarGroupLabel>
+      <SidebarMenu>
+        {items.map((item) => (
+          <Collapsible key={item.title} asChild defaultOpen={item.isActive}>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild tooltip={item.title}>
+                <a href={item.url}>
                   {item.icon}
                   <span>{item.title}</span>
-                </Link>
+                </a>
               </SidebarMenuButton>
+              {item.items?.length ? (
+                <>
+                  <CollapsibleTrigger asChild>
+                    <SidebarMenuAction className="data-[state=open]:rotate-90">
+                      <ChevronRightIcon
+                      />
+                      <span className="sr-only">Toggle</span>
+                    </SidebarMenuAction>
+                  </CollapsibleTrigger>
+                  <CollapsibleContent>
+                    <SidebarMenuSub>
+                      {item.items?.map((subItem) => (
+                        <SidebarMenuSubItem key={subItem.title}>
+                          <SidebarMenuSubButton asChild>
+                            <a href={subItem.url}>
+                              <span>{subItem.title}</span>
+                            </a>
+                          </SidebarMenuSubButton>
+                        </SidebarMenuSubItem>
+                      ))}
+                    </SidebarMenuSub>
+                  </CollapsibleContent>
+                </>
+              ) : null}
             </SidebarMenuItem>
-          ))}
-        </SidebarMenu>
-      </SidebarGroupContent>
+          </Collapsible>
+        ))}
+      </SidebarMenu>
     </SidebarGroup>
   )
 }

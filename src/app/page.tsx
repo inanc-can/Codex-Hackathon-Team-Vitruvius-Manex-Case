@@ -1,5 +1,4 @@
 import { QualityDashboardSections } from "@/components/quality-dashboard-sections";
-import { QualityDashboardShell } from "@/components/quality-dashboard-shell";
 import { getIssues } from "@/lib/manex";
 
 export const dynamic = "force-dynamic";
@@ -12,7 +11,7 @@ export default async function HomePage() {
   const heroIssueId = issues[0]?.id ?? "supplier_material";
 
   return (
-    <QualityDashboardShell active="Inbox" heroIssueId={heroIssueId}>
+    <>
       <QualityDashboardSections
         issues={issues}
         totalProducts={totalProducts}
@@ -21,6 +20,6 @@ export default async function HomePage() {
         heroIssueHref={`/issues/${heroIssueId}`}
         heroActionHref={`/issues/${heroIssueId}/actions`}
       />
-    </QualityDashboardShell>
+    </>
   );
 }

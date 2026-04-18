@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 
-import { AppShell } from "@/components/app-shell";
 import { CopilotPanel } from "@/components/copilot-panel";
 import { SectionNav } from "@/components/section-nav";
 import { Panel, SectionTitle } from "@/components/ui";
@@ -25,7 +24,7 @@ export default async function CopilotPage({
   const draft = buildCopilotDraft(issue);
 
   return (
-    <AppShell active="Copilot">
+    <>
       <Panel className="flex items-center justify-between gap-4 py-4">
         <SectionNav issueId={issue.card.id} current="Copilot Draft" />
       </Panel>
@@ -37,6 +36,6 @@ export default async function CopilotPage({
         />
       </Panel>
       <CopilotPanel draft={draft} />
-    </AppShell>
+    </>
   );
 }

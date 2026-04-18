@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 
-import { AppShell } from "@/components/app-shell";
 import { InvestigationWorkspace } from "@/components/investigation-workspace";
 import { SectionNav } from "@/components/section-nav";
 import { Panel } from "@/components/ui";
@@ -25,11 +24,11 @@ export default async function IssuePage({
   const draft = buildCopilotDraft(issue);
 
   return (
-    <AppShell active="Investigation">
+    <>
       <Panel className="flex items-center justify-between gap-4 py-4">
         <SectionNav issueId={issue.card.id} current="Investigation" />
       </Panel>
       <InvestigationWorkspace issue={issue} draft={draft} />
-    </AppShell>
+    </>
   );
 }

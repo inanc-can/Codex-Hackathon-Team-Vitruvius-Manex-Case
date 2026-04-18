@@ -1,9 +1,11 @@
 "use client"
 
 import * as React from "react"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
 
-import { NavDocuments } from "@/components/nav-documents"
 import { NavMain } from "@/components/nav-main"
+import { NavProjects } from "@/components/nav-projects"
 import { NavSecondary } from "@/components/nav-secondary"
 import { NavUser } from "@/components/nav-user"
 import {
@@ -15,124 +17,119 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import Link from "next/link"
-import { LayoutDashboardIcon, ListIcon, ChartBarIcon, ClipboardListIcon, UsersIcon, Settings2Icon, CircleHelpIcon, SearchIcon, DatabaseIcon, FileChartColumnIcon, BotIcon, CommandIcon } from "lucide-react"
+import { TerminalSquareIcon, BotIcon, BookOpenIcon, Settings2Icon, LifeBuoyIcon, SendIcon, FrameIcon, PieChartIcon, MapIcon, TerminalIcon } from "lucide-react"
 
-const data = {
-  user: {
-    name: "Quality Ops",
-    email: "manex@vitruvius.ai",
-    avatar: "",
-  },
-  navMain: [
-    {
-      title: "Dashboard",
-      url: "/dashboard",
-      icon: (
-        <LayoutDashboardIcon
-        />
-      ),
-    },
-    {
-      title: "Investigations",
-      url: "/",
-      icon: (
-        <ListIcon
-        />
-      ),
-    },
-    {
-      title: "Analytics",
-      url: "/dashboard",
-      icon: (
-        <ChartBarIcon
-        />
-      ),
-    },
-    {
-      title: "Actions",
-      url: "/issues/supplier_material/actions",
-      icon: (
-        <ClipboardListIcon
-        />
-      ),
-    },
-    {
-      title: "Stakeholders",
-      url: "/issues/supplier_material/brief",
-      icon: (
-        <UsersIcon
-        />
-      ),
-    },
-  ],
-  navSecondary: [
-    {
-      title: "Search",
-      url: "#",
-      icon: (
-        <SearchIcon
-        />
-      ),
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: (
-        <Settings2Icon
-        />
-      ),
-    },
-    {
-      title: "Get Help",
-      url: "#",
-      icon: (
-        <CircleHelpIcon
-        />
-      ),
-    },
-  ],
-  documents: [
-    {
-      name: "Traceability Graph",
-      url: "/issues/supplier_material",
-      icon: (
-        <DatabaseIcon
-        />
-      ),
-    },
-    {
-      name: "Manager Briefs",
-      url: "/issues/supplier_material/brief",
-      icon: (
-        <FileChartColumnIcon
-        />
-      ),
-    },
-    {
-      name: "Copilot Drafts",
-      url: "/issues/supplier_material/copilot",
-      icon: (
-        <BotIcon
-        />
-      ),
-    },
-  ],
-}
+const DEFAULT_ISSUE_ID = "supplier_material"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const pathname = usePathname()
+  const issueId = pathname.match(/^\/issues\/([^/]+)/)?.[1] ?? DEFAULT_ISSUE_ID
+  const issueBasePath = `/issues/${issueId}`
+
+  const data = {
+    user: {
+      name: "Quality Copilot",
+      email: "ops@manex.example",
+      avatar: "/avatars/shadcn.jpg",
+    },
+    navMain: [
+      {
+        title: "Inbox",
+        url: "/",
+        icon: (
+          <TerminalSquareIcon
+          />
+        ),
+        isActive: pathname === "/",
+      },
+      {
+        title: "Investigation",
+        url: issueBasePath,
+        icon: (
+          <BookOpenIcon
+          />
+        ),
+        isActive: pathname === issueBasePath,
+      },
+      {
+        title: "Copilot Draft",
+        url: `${issueBasePath}/copilot`,
+        icon: (
+          <BotIcon
+          />
+        ),
+        isActive: pathname === `${issueBasePath}/copilot`,
+      },
+      {
+        title: "Action Tracker",
+        url: `${issueBasePath}/actions`,
+        icon: (
+          <Settings2Icon
+          />
+        ),
+        isActive: pathname === `${issueBasePath}/actions`,
+      },
+    ],
+    navSecondary: [
+      {
+        title: "Manager Brief",
+        url: `${issueBasePath}/brief`,
+        icon: (
+          <LifeBuoyIcon
+          />
+        ),
+      },
+      {
+        title: "Current Investigation",
+        url: issueBasePath,
+        icon: (
+          <SendIcon
+          />
+        ),
+      },
+    ],
+    projects: [
+      {
+        name: "Supplier Material",
+        url: "/issues/supplier_material",
+        icon: (
+          <FrameIcon
+          />
+        ),
+      },
+      {
+        name: "Process Drift",
+        url: "/issues/process_drift",
+        icon: (
+          <PieChartIcon
+          />
+        ),
+      },
+      {
+        name: "Design Weakness",
+        url: "/issues/design_weakness",
+        icon: (
+          <MapIcon
+          />
+        ),
+      },
+    ],
+  }
+
   return (
-    <Sidebar collapsible="offcanvas" {...props}>
-      <SidebarHeader className="border-b border-[#d7deea]">
+    <Sidebar variant="inset" {...props}>
+      <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton
-              asChild
-              className="data-[slot=sidebar-menu-button]:p-1.5! rounded-[8px]"
-            >
-              <Link href="/dashboard">
-                <CommandIcon className="size-5!" />
-                <span className="text-base font-semibold">Quality Copilot</span>
+            <SidebarMenuButton size="lg" asChild>
+              <Link href="/">
+                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+                  <TerminalIcon className="size-4" />
+                </div>
+                <div className="grid flex-1 text-left text-sm leading-tight">
+                  <span className="truncate font-medium">Quality Ops</span>
+                  <span className="truncate text-xs">Manex x Vitruvius</span>
+                </div>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -140,10 +137,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavDocuments items={data.documents} />
+        <NavProjects projects={data.projects} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
-      <SidebarFooter className="border-t border-[#d7deea]">
+      <SidebarFooter>
         <NavUser user={data.user} />
       </SidebarFooter>
     </Sidebar>

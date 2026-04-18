@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 
-import { AppShell } from "@/components/app-shell";
 import { SectionNav } from "@/components/section-nav";
 import { Badge, KpiTile, Panel, SectionTitle } from "@/components/ui";
 import { getIssueDetail } from "@/lib/manex";
@@ -21,7 +20,7 @@ export default async function BriefPage({
   }
 
   return (
-    <AppShell active="Manager Brief">
+    <>
       <Panel className="flex items-center justify-between gap-4 py-4">
         <SectionNav issueId={issue.card.id} current="Manager Brief" />
       </Panel>
@@ -92,6 +91,6 @@ export default async function BriefPage({
           ))}
         </ul>
       </Panel>
-    </AppShell>
+    </>
   );
 }

@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 
 import { ActionForm } from "@/components/action-form";
-import { AppShell } from "@/components/app-shell";
 import { SectionNav } from "@/components/section-nav";
 import { Badge, Panel, SectionTitle } from "@/components/ui";
 import { getIssueDetail } from "@/lib/manex";
@@ -34,7 +33,7 @@ export default async function ActionsPage({
   const completedActions = issue.evidence.actions.filter((action) => action.status === "done").length;
 
   return (
-    <AppShell active="Actions">
+    <>
       <Panel className="flex items-center justify-between gap-4 py-4">
         <SectionNav issueId={issue.card.id} current="Action Tracker" />
       </Panel>
@@ -116,6 +115,6 @@ export default async function ActionsPage({
           </div>
         </Panel>
       </div>
-    </AppShell>
+    </>
   );
 }
